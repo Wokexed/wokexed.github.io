@@ -14,6 +14,8 @@
         /* Apply the Inter font to the entire body */
         body {
             font-family: 'Inter', sans-serif;
+            /* Hide overflow to prevent scrollbars from appearing due to the sharks */
+            overflow: hidden;
         }
 
         /* Customize the scrollbar for a cleaner look */
@@ -41,6 +43,16 @@
         .section-content.is-visible {
             opacity: 1;
             transform: scale(1);
+        }
+
+        /* The canvas for the sharks should be fixed to cover the entire screen behind the content */
+        #shark-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Puts the canvas behind all other content */
         }
     </style>
 </head>
@@ -104,6 +116,9 @@
         </div>
     </section>
 
+    <!-- The canvas element for the shark animation -->
+    <canvas id="shark-canvas"></canvas>
+
     <script>
         // Use IntersectionObserver to add a class when a section becomes visible
         const sections = document.querySelectorAll('.section-content');
@@ -125,6 +140,83 @@
         sections.forEach(section => {
             observer.observe(section);
         });
+
+        // --- Shark Animation Script ---
+        const canvas = document.getElementById('shark-canvas');
+        const ctx = canvas.getContext('2d');
+        const sharks = [];
+        const numSharks = 5;
+
+        // Set the canvas dimensions to match the window
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        // Run the resize function on load and whenever the window resizes
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Shark class to manage the position, movement, and drawing of each shark
+        class Shark {
+            constructor(x, y, radius, velocity, emoji) {
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+                this.velocity = velocity;
+                this.emoji = emoji;
+            }
+
+            // Draw the shark emoji on the canvas
+            draw() {
+                ctx.font = `${this.radius * 2}px sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                // Adjust position for a centered emoji
+                ctx.fillText(this.emoji, this.x, this.y);
+            }
+
+            // Update the shark's position and handle wall collisions
+            update() {
+                // Bounce off the top and bottom walls
+                if (this.y + this.radius + this.velocity.y > canvas.height || this.y - this.radius + this.velocity.y < 0) {
+                    this.velocity.y = -this.velocity.y;
+                }
+                // Bounce off the left and right walls
+                if (this.x + this.radius + this.velocity.x > canvas.width || this.x - this.radius + this.velocity.x < 0) {
+                    this.velocity.x = -this.velocity.x;
+                }
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+            }
+        }
+
+        // Initialize the sharks
+        for (let i = 0; i < numSharks; i++) {
+            const radius = 20;
+            const x = Math.random() * (canvas.width - radius * 2) + radius;
+            const y = Math.random() * (canvas.height - radius * 2) + radius;
+            const velocity = {
+                x: (Math.random() - 0.5) * 2, // Random velocity between -1 and 1
+                y: (Math.random() - 0.5) * 2
+            };
+            sharks.push(new Shark(x, y, radius, velocity, '🦈'));
+        }
+
+        // Animation loop for the sharks
+        function animateSharks() {
+            requestAnimationFrame(animateSharks);
+            // Clear the canvas for the next frame
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            sharks.forEach(shark => {
+                shark.update();
+                shark.draw();
+            });
+        }
+
+        // Start the shark animation loop
+        animateSharks();
+
     </script>
 </body>
 </html>
