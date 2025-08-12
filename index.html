@@ -1,46 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <title>Wokexed</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f0f0f;
-      color: #f0f0f0;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
-    }
-    h1 {
-      font-size: 3em;
-      color: #00ff99;
-    }
-    p {
-      font-size: 1.2em;
-      margin: 10px 0;
-    }
-    a {
-      color: #00ccff;
-      text-decoration: none;
-      margin-top: 20px;
-      display: inline-block;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <!-- Use Tailwind CSS for a modern, responsive design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Apply the Inter font to the entire body */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Customize the scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; /* light blue-gray */
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; /* gray */
+            border-radius: 4px;
+        }
+    </style>
 </head>
-<body>
-  <h1>Hey, I'm Wokexed</h1>
-  <p>I'm 22 years old.</p>
-  <p>Welcome to my personal GitHub page.</p>
-  <a href="https://github.com/wokexed" target="_blank">Visit my GitHub</a>
+<body class="bg-slate-50 text-gray-800">
+
+    <!-- Floating Header -->
+    <!-- The header is fixed at the top, has a semi-transparent background, and a backdrop blur effect -->
+    <header class="fixed top-0 left-0 right-0 z-50 p-4 bg-white/80 backdrop-blur-sm shadow-md rounded-b-xl mx-auto max-w-lg transition-all duration-300 ease-in-out">
+        <nav class="flex justify-between items-center px-6">
+            <!-- Navigation links to each section -->
+            <a href="#about" class="text-lg font-bold text-gray-800 hover:text-blue-600 transition-colors duration-200">About</a>
+            <a href="#schools" class="text-lg font-bold text-gray-800 hover:text-blue-600 transition-colors duration-200">Schools</a>
+            <a href="#links" class="text-lg font-bold text-gray-800 hover:text-blue-600 transition-colors duration-200">Links</a>
+        </nav>
+    </header>
+
+    <!-- Section 1: About -->
+    <!-- Each section takes up the full viewport height (h-screen) and centers its content -->
+    <section id="about" class="h-screen flex items-center justify-center p-8 bg-blue-100">
+        <div class="text-center max-w-2xl">
+            <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-4">Hello, I'm Ray</h1>
+            <p class="text-lg md:text-xl text-gray-700 leading-relaxed">
+                I am a budding developer with a love for creating beautiful and functional web experiences. This is a simple, single-page website to showcase my skills and journey.
+            </p>
+        </div>
+    </section>
+
+    <!-- Section 2: Schools -->
+    <section id="schools" class="h-screen flex items-center justify-center p-8 bg-slate-200">
+        <div class="text-center max-w-2xl">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">My Educational Journey</h2>
+            <div class="space-y-4">
+                <p class="text-lg md:text-xl text-gray-700">
+                    <span class="font-bold text-blue-600">Singapore University of Social Sciences</span><br>
+                    Bachelor of Science in Information and Communication Technology, 2024-2027
+                </p>
+                <p class="text-lg md:text-xl text-gray-700">
+                    <span class="font-bold text-blue-600">St Andrews Junior College</span><br>
+                    Graduated 2020-2021
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Links -->
+    <section id="links" class="h-screen flex items-center justify-center p-8 bg-blue-100">
+        <div class="text-center max-w-2xl">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Connect With Me</h2>
+            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8">
+                <a href="https://github.com/wokexed" target="_blank" class="p-4 bg-gray-900 text-white font-bold rounded-lg shadow-lg hover:bg-gray-700 transition-colors duration-200">
+                    GitHub Profile
+                </a>
+                <a href="https://linkedin.com/in/your-username" target="_blank" class="p-4 bg-blue-700 text-white font-bold rounded-lg shadow-lg hover:bg-blue-500 transition-colors duration-200">
+                    LinkedIn
+                </a>
+                <a href="https://your-portfolio.com" target="_blank" class="p-4 bg-emerald-600 text-white font-bold rounded-lg shadow-lg hover:bg-emerald-400 transition-colors duration-200">
+                    Personal Site
+                </a>
+            </div>
+        </div>
+    </section>
+
 </body>
 </html>
