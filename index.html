@@ -14,33 +14,218 @@
         /* Apply the Inter font to the entire body */
         body {
             font-family: 'Inter', sans-serif;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab, #667eea, #764ba2);
+            background-size: 400% 400%;
+            animation: gradientBg 15s ease infinite;
+            min-height: 100vh;
         }
 
-        /* Customize the scrollbar for a cleaner look */
+        @keyframes gradientBg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Colorful floating particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particleFloat 8s linear infinite;
+        }
+
+        .particle-1 { background: radial-gradient(circle, #ff6b6b, #ee5a52); }
+        .particle-2 { background: radial-gradient(circle, #4ecdc4, #44a08d); }
+        .particle-3 { background: radial-gradient(circle, #45b7d1, #2196f3); }
+        .particle-4 { background: radial-gradient(circle, #f9ca24, #f0932b); }
+        .particle-5 { background: radial-gradient(circle, #6c5ce7, #a29bfe); }
+        .particle-6 { background: radial-gradient(circle, #fd79a8, #fdcb6e); }
+
+        @keyframes particleFloat {
+            0% { 
+                transform: translateY(100vh) translateX(0) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) translateX(10px) rotate(36deg) scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(-10vh) translateX(-10px) rotate(324deg) scale(1);
+            }
+            100% { 
+                transform: translateY(-20vh) translateX(0) rotate(360deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Glass morphism cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Colorful text gradients */
+        .gradient-text-1 {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShimmer 3s ease infinite;
+        }
+
+        .gradient-text-2 {
+            background: linear-gradient(45deg, #f9ca24, #f0932b, #eb4d4b);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShimmer 4s ease infinite;
+        }
+
+        .gradient-text-3 {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe, #fd79a8);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShimmer 5s ease infinite;
+        }
+
+        @keyframes textShimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Custom scrollbar with colors */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 12px;
         }
 
         ::-webkit-scrollbar-track {
-            background: #f1f5f9; /* light blue-gray */
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #cbd5e1; /* gray */
-            border-radius: 4px;
+            background: linear-gradient(180deg, #ff6b6b, #4ecdc4, #45b7d1);
+            border-radius: 10px;
         }
 
         /* Define the transition animation for the content inside each section */
         .section-content {
             opacity: 0;
-            transform: scale(0.9);
-            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(80px) scale(0.9);
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* Add a class to activate the animation when the section is in view */
         .section-content.is-visible {
             opacity: 1;
-            transform: scale(1);
+            transform: translateY(0) scale(1);
+        }
+
+        /* Colorful button styles */
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            background-size: 300% 300%;
+            animation: buttonGlow 3s ease infinite;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            background-size: 300% 300%;
+            animation: buttonGlow 4s ease infinite;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(108, 92, 231, 0.4);
+        }
+
+        .btn-tertiary {
+            background: linear-gradient(45deg, #f9ca24, #f0932b);
+            background-size: 300% 300%;
+            animation: buttonGlow 5s ease infinite;
+            transition: all 0.3s ease;
+        }
+
+        .btn-tertiary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(249, 202, 36, 0.4);
+        }
+
+        @keyframes buttonGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Rainbow border animation */
+        .rainbow-border {
+            position: relative;
+            border-radius: 15px;
+            padding: 3px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24, #6c5ce7, #fd79a8);
+            background-size: 300% 300%;
+            animation: rainbowRotate 3s linear infinite;
+        }
+
+        .rainbow-border::before {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            z-index: -1;
+        }
+
+        @keyframes rainbowRotate {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Pulsing icons */
+        .pulse-icon {
+            animation: iconPulse 2s ease infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Loading bar animation */
+        .loading-bar {
+            width: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);
+            border-radius: 3px;
+            transition: width 2s ease;
+        }
+
+        .loading-bar.animate {
+            width: 100%;
         }
     </style>
 </head>
