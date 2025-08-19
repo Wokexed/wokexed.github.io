@@ -3,18 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
+    <title>Github Portfolio</title>
     <!-- Use Tailwind CSS for a modern, responsive design -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Use Inter font from Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Feather Icons for UI elements -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+    
     <style>
         /* Apply the Inter font to the entire body */
         body {
             font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        /* Light mode background */
+        .light-mode {
             background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab, #667eea, #764ba2);
+            background-size: 400% 400%;
+            animation: gradientBg 15s ease infinite;
+            min-height: 100vh;
+        }
+
+        /* Dark mode background */
+        .dark-mode {
+            background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #533a7b, #2d1b69, #0e4b99);
             background-size: 400% 400%;
             animation: gradientBg 15s ease infinite;
             min-height: 100vh;
@@ -24,6 +41,37 @@
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
+        }
+
+        /* Loading screen styles */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBg 2s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-spinner {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* Colorful floating particles */
@@ -66,13 +114,86 @@
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .glass-card:hover {
             background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Dark mode glass cards */
+        .dark-mode .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .glass-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Project cards */
+        .project-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .project-card:hover::before {
+            left: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) rotateY(5deg);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Skill bars */
+        .skill-bar {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .skill-progress {
+            height: 12px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+            border-radius: 10px;
+            width: 0;
+            transition: width 2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .skill-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: skillShimmer 2s ease infinite;
+        }
+
+        @keyframes skillShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         /* Colorful text gradients */
@@ -109,7 +230,76 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Custom scrollbar with colors */
+        /* Navigation styles */
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link.active {
+            color: #4ecdc4 !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link.active::after,
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        /* Dark mode toggle */
+        .theme-toggle {
+            width: 60px;
+            height: 30px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border-radius: 30px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark-mode .theme-toggle {
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+        }
+
+        .dark-mode .theme-toggle::before {
+            transform: translateX(30px);
+            background: #f1f1f1;
+        }
+
+        /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 12px;
         }
@@ -124,25 +314,32 @@
             border-radius: 10px;
         }
 
-        /* Define the transition animation for the content inside each section */
+        /* Section animations */
         .section-content {
             opacity: 0;
             transform: translateY(80px) scale(0.9);
             transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Add a class to activate the animation when the section is in view */
         .section-content.is-visible {
             opacity: 1;
             transform: translateY(0) scale(1);
         }
 
-        /* Colorful button styles */
+        /* Button styles */
         .btn-primary {
             background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
             background-size: 300% 300%;
             animation: buttonGlow 3s ease infinite;
             transition: all 0.3s ease;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .btn-primary:hover {
@@ -162,154 +359,302 @@
             box-shadow: 0 20px 40px rgba(108, 92, 231, 0.4);
         }
 
-        .btn-tertiary {
-            background: linear-gradient(45deg, #f9ca24, #f0932b);
-            background-size: 300% 300%;
-            animation: buttonGlow 5s ease infinite;
-            transition: all 0.3s ease;
-        }
-
-        .btn-tertiary:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(249, 202, 36, 0.4);
-        }
-
         @keyframes buttonGlow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        /* Rainbow border animation */
-        .rainbow-border {
+        /* Resume highlight */
+        .resume-highlight {
             position: relative;
-            border-radius: 15px;
+            background: linear-gradient(45deg, #f9ca24, #f0932b);
             padding: 3px;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24, #6c5ce7, #fd79a8);
-            background-size: 300% 300%;
-            animation: rainbowRotate 3s linear infinite;
-        }
-
-        .rainbow-border::before {
-            content: '';
-            position: absolute;
-            inset: 3px;
-            background: rgba(255, 255, 255, 0.9);
             border-radius: 12px;
-            z-index: -1;
+            animation: pulseGlow 2s ease infinite;
         }
 
-        @keyframes rainbowRotate {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(249, 202, 36, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(249, 202, 36, 0.8); }
         }
 
-        /* Pulsing icons */
-        .pulse-icon {
-            animation: iconPulse 2s ease infinite;
+        .resume-highlight .btn-primary {
+            background: linear-gradient(45deg, #f9ca24, #f0932b);
+            margin: 0;
         }
 
-        @keyframes iconPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        /* Loading bar animation */
-        .loading-bar {
-            width: 0;
-            height: 6px;
-            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);
-            border-radius: 3px;
-            transition: width 2s ease;
-        }
-
-        .loading-bar.animate {
-            width: 100%;
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .glass-card:hover {
+                transform: translateY(-5px) scale(1.01);
+            }
+            
+            .project-card:hover {
+                transform: translateY(-5px);
+            }
         }
     </style>
 </head>
-<body class="bg-slate-50 text-gray-800">
+<body class="light-mode">
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="text-center">
+            <div class="loading-spinner mx-auto mb-4"></div>
+            <p class="text-white text-lg font-medium">Loading Portfolio...</p>
+        </div>
+    </div>
 
-    <!-- Floating Header -->
-    <!-- The header is fixed at the top, has a semi-transparent background, and a backdrop blur effect -->
-    <header class="fixed top-0 left-0 right-0 z-10 p-4 bg-white/80 backdrop-blur-sm shadow-md rounded-b-xl mx-auto max-w-lg transition-all duration-300 ease-in-out">
-        <nav class="flex justify-between items-center px-6">
-            <!-- Navigation links to each section -->
-            <a href="#about" class="text-lg font-bold text-gray-800 hover:text-blue-600 transition-colors duration-200">About</a>
-            <a href="#schools" class="text-lg font-bold text-gray-800 hover:text-blue-600 transition-colors duration-200">Schools</a>
-            <a href="#links" class="text-lg font-bold text-gray-800 hover:text-blue-600 transition-colors duration-200">Links</a>
-        </nav>
+    <!-- Floating particles -->
+    <div id="particles"></div>
+
+    <!-- Enhanced Header with Mobile Menu -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out">
+        <div class="glass-card m-4 rounded-2xl">
+            <nav class="flex justify-between items-center px-6 py-4">
+                <!-- Logo -->
+                <div class="text-2xl font-bold gradient-text-1">Ray.dev</div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#about" class="nav-link text-lg font-medium text-gray-800 dark:text-white hover:text-blue-600 transition-colors duration-200">About</a>
+                    <a href="#experience" class="nav-link text-lg font-medium text-gray-800 dark:text-white hover:text-blue-600 transition-colors duration-200">Experience</a>
+                    <a href="#skills" class="nav-link text-lg font-medium text-gray-800 dark:text-white hover:text-blue-600 transition-colors duration-200">Skills</a>
+                    <a href="#projects" class="nav-link text-lg font-medium text-gray-800 dark:text-white hover:text-blue-600 transition-colors duration-200">Projects</a>
+                    <a href="#links" class="nav-link text-lg font-medium text-gray-800 dark:text-white hover:text-blue-600 transition-colors duration-200">Links</a>
+                </div>
+
+                <!-- Dark Mode Toggle & Mobile Menu Button -->
+                <div class="flex items-center space-x-4">
+                    <div class="theme-toggle" id="themeToggle"></div>
+                    <button id="mobileMenuBtn" class="md:hidden text-gray-800 dark:text-white">
+                        <i data-feather="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 w-80 h-full glass-card md:hidden">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-8">
+                    <div class="text-xl font-bold gradient-text-1">Menu</div>
+                    <button id="closeMobileMenu" class="text-gray-800 dark:text-white">
+                        <i data-feather="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+                <div class="space-y-6">
+                    <a href="#about" class="nav-link block text-lg font-medium text-gray-800 dark:text-white hover:text-blue-600 transition-colors duration-200">About</a>
+                    <a href="#experience" class="nav-link block text-lg font-medium text-gray-800 dark:text-white hover:text-blue-600 transition-colors duration-200">Experience</a>
+                    <a href="#skills" class="nav-link block text-lg font-medium text-gray-800 dark:text-white hover:text-blue-600 transition-colors duration-200">Skills</a>
+                    <a href="#projects" class="nav-link block text-lg font-medium text-gray-800 dark:text-white hover:text-blue-600 transition-colors duration-200">Projects</a>
+                    <a href="#links" class="nav-link block text-lg font-medium text-gray-800 dark:text-white hover:text-blue-600 transition-colors duration-200">Links</a>
+                </div>
+            </div>
+        </div>
     </header>
 
     <!-- Section 1: About -->
-    <!-- Each section takes up the full viewport height (h-screen) and centers its content -->
-    <section id="about" class="h-screen flex items-center justify-center p-8 bg-blue-100">
-        <!-- The content inside each section has the 'section-content' class for the animation -->
-        <div class="text-center max-w-2xl section-content">
-            <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-4">Hello, I'm Ray</h1>
-            <p class="text-lg md:text-xl text-gray-700 leading-relaxed">
-                I am a budding developer with a love for creating beautiful and functional web experiences. This is a simple, single-page website to showcase my skills and journey.
+    <section id="about" class="min-h-screen flex items-center justify-center p-8">
+        <div class="text-center max-w-4xl section-content">
+            <h1 class="text-6xl md:text-8xl font-bold gradient-text-1 mb-6">Hello, I'm Ray</h1>
+            <p class="text-xl md:text-2xl text-white leading-relaxed mb-8">
+                I am a budding developer with a love for creating beautiful and functional web experiences. 
+                This is a showcase of my skills, journey, and passion for technology.
             </p>
-        </div>
-    </section>
-
-    <!-- Section 2: Schools -->
-    <section id="schools" class="h-screen flex items-center justify-center p-8 bg-slate-200">
-        <div class="text-center max-w-2xl section-content">
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">My Educational Journey</h2>
-            <div class="space-y-4">
-                <p class="text-lg md:text-xl text-gray-700">
-                    <span class="font-bold text-blue-600">Singapore University of Social Sciences</span><br>
-                    Bachelor of Science in Information and Communication Technology, 2024-2027
-                </p>
-                <p class="text-lg md:text-xl text-gray-700">
-                    <span class="font-bold text-blue-600">St Andrews Junior College</span><br>
-                    Graduated 2020-2021
-                </p>
+            
+            <!-- Resume Download Button - HIGHLIGHTED -->
+            <div class="resume-highlight inline-block rounded-2xl mb-8">
+                <a href="#" onclick="downloadResume()" class="btn-primary flex items-center space-x-2">
+                    <i data-feather="download" class="w-5 h-5"></i>
+                    <span>Download My Resume</span>
+                </a>
+            </div>
+            
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#experience" class="btn-secondary px-6 py-3 rounded-lg text-white font-semibold">View My Experience</a>
+                <a href="#projects" class="btn-primary px-6 py-3 rounded-lg text-white font-semibold">See My Projects</a>
             </div>
         </div>
     </section>
 
-    <!-- Section 3: Links -->
-    <section id="links" class="h-screen flex items-center justify-center p-8 bg-blue-100">
-        <div class="text-center max-w-2xl section-content">
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Connect With Me</h2>
-            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8">
-                <a href="https://github.com/wokexed" target="_blank" class="p-4 bg-gray-900 text-white font-bold rounded-lg shadow-lg hover:bg-gray-700 transition-colors duration-200">
-                    GitHub Profile
-                </a>
-                <a href="https://linkedin.com/in/ray-lee-0689512b5/" target="_blank" class="p-4 bg-blue-700 text-white font-bold rounded-lg shadow-lg hover:bg-blue-500 transition-colors duration-200">
-                    LinkedIn
-                </a>
-                <a href="https://i1.rgstatic.net/ii/profile.image/675103478145028-1537968620401_Q512/Grandee-Lee.jpg" target="_blank" class="p-4 bg-emerald-600 text-white font-bold rounded-lg shadow-lg hover:bg-emerald-400 transition-colors duration-200">
-                    For Grandee
-                </a>
+    <!-- Section 2: Experience -->
+    <section id="experience" class="min-h-screen flex items-center justify-center p-8">
+        <div class="max-w-6xl section-content">
+            <h2 class="text-5xl md:text-6xl font-bold text-center gradient-text-2 mb-12">My Journey</h2>
+            
+            <!-- Timeline -->
+            <div class="space-y-8">
+                <!-- Work Experience -->
+                <div class="glass-card rounded-2xl p-8">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-gradient-to-r from-green-400 to-blue-500 rounded-full p-3">
+                            <i data-feather="briefcase" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-white mb-2">Software Test Engineer Intern</h3>
+                            <p class="text-lg text-blue-200 mb-2">Venti Technologies</p>
+                            <p class="text-gray-300 mb-4">Gained hands-on experience in software testing methodologies, quality assurance, and bug tracking systems.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-blue-500/20 text-blue-200 rounded-full text-sm">Testing</span>
+                                <span class="px-3 py-1 bg-green-500/20 text-green-200 rounded-full text-sm">QA</span>
+                                <span class="px-3 py-1 bg-purple-500/20 text-purple-200 rounded-full text-sm">Bug Tracking</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education -->
+                <div class="glass-card rounded-2xl p-8">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-gradient-to-r from-purple-400 to-pink-500 rounded-full p-3">
+                            <i data-feather="book-open" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-white mb-2">Bachelor of Science in ICT</h3>
+                            <p class="text-lg text-blue-200 mb-2">Singapore University of Social Sciences • 2024-2027</p>
+                            <p class="text-gray-300 mb-4">Currently pursuing a comprehensive degree in Information and Communication Technology.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-8">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-gradient-to-r from-orange-400 to-red-500 rounded-full p-3">
+                            <i data-feather="award" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-white mb-2">A-Levels Graduate</h3>
+                            <p class="text-lg text-blue-200 mb-2">St Andrews Junior College • 2020-2021</p>
+                            <p class="text-gray-300">Completed pre-university education with strong foundation in sciences and mathematics.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <script>
-        // Use IntersectionObserver to add a class when a section becomes visible
-        const sections = document.querySelectorAll('.section-content');
+    <!-- Section 3: Skills -->
+    <section id="skills" class="min-h-screen flex items-center justify-center p-8">
+        <div class="max-w-6xl w-full section-content">
+            <h2 class="text-5xl md:text-6xl font-bold text-center gradient-text-3 mb-12">Skills & Technologies</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Technical Skills -->
+                <div class="glass-card rounded-2xl p-8">
+                    <h3 class="text-3xl font-bold text-white mb-6">Technical Skills</h3>
+                    <div class="space-y-6">
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-white font-medium">JavaScript</span>
+                                <span class="text-blue-200">85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-white font-medium">HTML/CSS</span>
+                                <span class="text-blue-200">90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-white font-medium">React</span>
+                                <span class="text-blue-200">75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="75%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-white font-medium">Python</span>
+                                <span class="text-blue-200">70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="70%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    // Stop observing once the element is visible to prevent re-triggering
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            // Options for the observer
-            threshold: 0.5 // Trigger when 50% of the element is in view
-        });
+                <!-- Tools & Frameworks -->
+                <div class="glass-card rounded-2xl p-8">
+                    <h3 class="text-3xl font-bold text-white mb-6">Tools & Frameworks</h3>
+                    <div class="space-y-6">
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-white font-medium">Git/GitHub</span>
+                                <span class="text-blue-200">80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="80%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-white font-medium">Tailwind CSS</span>
+                                <span class="text-blue-200">85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-white font-medium">Testing Tools</span>
+                                <span class="text-blue-200">65%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="65%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-white font-medium">Node.js</span>
+                                <span class="text-blue-200">60%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="60%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        // Loop over the sections and start observing each one
-        sections.forEach(section => {
-            observer.observe(section);
-        });
-    </script>
-</body>
-</html>
+    <!-- Section 4: Projects -->
+    <section id="projects" class="min-h-screen flex items-center justify-center p-8">
+        <div class="max-w-7xl w-full section-content">
+            <h2 class="text-5xl md:text-6xl font-bold text-center gradient-text-1 mb-12">Featured Projects</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="project-card rounded-2xl p-6 h-80">
+                    <div class="h-full flex flex-col">
+                        <div class="bg-gradient-to-br from-blue-400 to-purple-500 rounded-lg p-4 mb-4">
+                            <i data-feather="globe" class="w-8 h-8 text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Portfolio Website</h3>
+                        <p class="text-gray-300 flex-1 mb-4">A responsive portfolio website built with modern web technologies featuring dark mode, animations, and glassmorphism design.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-blue-500/20 text-blue-200 rounded text-sm">HTML/CSS</span>
+                            <span class="px-2 py-1 bg-yellow-500/20 text-yellow-200 rounded text-sm">JavaScript</span>
+                            <span class="px-2 py-1 bg-cyan-500/20 text-cyan-200 rounded text-sm">Tailwind</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <a href="#" class="btn-primary px-4 py-2 text-sm rounded-lg">Live Demo</a>
+                            <a href="#" class="btn-secondary px-4 py-2 text-sm rounded-lg text-white">GitHub</a>
+                        </div>
