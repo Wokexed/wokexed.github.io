@@ -90,10 +90,13 @@
 
   /* spine — the one orchestrated motion element */
   .spine{
-    position:fixed; left:50%; top:0; bottom:0;
+    position:fixed; left:calc(50% + 436px); top:0; bottom:0;
     width:1px; z-index:1; pointer-events:none;
-    transform:translateX(-50%);
     background:var(--line);
+    display:none;
+  }
+  @media (min-width:1180px){
+    .spine{ display:block; }
   }
   .spine::before{
     content:'';
@@ -285,8 +288,7 @@
   @media (max-width:640px){
     .split{ grid-template-columns:1fr; }
     .skill-grid{ grid-template-columns:1fr; }
-    nav .links{ display:none; }
-    .spine{ display:none; }
+    .nav-text{ display:none; }
   }
 </style>
 </head>
@@ -300,10 +302,10 @@
   <nav>
     <span class="id">RAY LEE</span>
     <div class="links">
-      <a href="#experience">Experience</a>
-      <a href="#projects">Projects</a>
-      <a href="#skills">Skills</a>
-      <a href="#contact">Contact</a>
+      <a class="nav-text" href="#experience">Experience</a>
+      <a class="nav-text" href="#projects">Projects</a>
+      <a class="nav-text" href="#skills">Skills</a>
+      <a class="nav-text" href="#contact">Contact</a>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode">
         <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
@@ -315,7 +317,7 @@
     <div class="kicker"><span class="dot"></span>AVAILABLE FOR SOFTWARE / QA ROLES · SINGAPORE</div>
     <h1 class="name">Lee Cheow En Ray</h1>
     <p class="role">Software developer &amp; QA engineer, building automation and AI-assisted review tools across compliance and enterprise systems.</p>
-    <p class="hero-desc">Currently studying Information &amp; Communication Technology at SUSS while working on validation, test automation and LLM-driven document review as an IT QA intern.</p>
+    <p class="hero-desc">Currently reading Information &amp; Communication Technology at SUSS while working on validation, test automation, and LLM-driven document review as an IT QA intern.</p>
     <div class="hero-links">
       <a class="primary" href="mailto:raylee001@suss.edu.sg">Email me</a>
       <a href="https://github.com/Wokexed" target="_blank" rel="noopener">GitHub ↗</a>
